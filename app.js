@@ -1,12 +1,5 @@
 let amigos = [];
 
-// Esta función asigna un texto a un elemento HTML específico
-function asignarTextoAElemento(elemento, texto) {
-    let elementoHTML = document.getElementById(elemento);
-    elementoHTML.innerHTML = texto;
-    return;
-}
-
 /*
     Agrega un amigo a la lista de amigos.
     * Si esta no se ingresa nada se muestra un ALERT con un mensaje de error "Por favor, inserte un nombre"
@@ -22,12 +15,34 @@ function agregarAmigo() {
         amigos.push(document.getElementById('amigo').value);
         limpiarCaja();
         mostrarAmigos();
+        limpiarElemento('resultado');
     }
 }
 
-// Esta función limpia el campo de texto con el ID amigo
-function limpiarCaja(){
-    document.getElementById('amigo').value = '';
+/*
+    * Si la lista de amigos no esta vacia, genera un numero aleatorio entre 1 y la
+    cantidad de amigos en la lista "amigos".
+    * El número generado se utiliza para seleccionar un amigo de la lista.
+    * Se reinicia la lista de amigos.
+    
+    * Si la lista de amigos esta vacia, se muestra un ALERT
+*/
+
+function sortearAmigo() {
+    let amigoGanador = '';
+    if (amigosNoDisponibles()) {
+        amigoGanador = amigos[generarNumeroAleatorio() - 1];
+        asignarTextoAElemento('resultado', `El amigo secreto sorteado es: ${amigoGanador}`);
+        reiniciarLista();
+    } else {
+        amigosNoDisponibles();
+    }
+}
+
+// Esta función asigna un texto a un elemento HTML específico
+function asignarTextoAElemento(elemento, texto) {
+    let elementoHTML = document.getElementById(elemento);
+    elementoHTML.innerHTML = texto;
     return;
 }
 
@@ -64,13 +79,13 @@ function reiniciarLista() {
     return;
 }
 
-function sortearAmigo() {
-    let amigoGanador = '';
-    if (amigosNoDisponibles()) {
-        amigoGanador = amigos[generarNumeroAleatorio() - 1];
-        asignarTextoAElemento('resultado', `El amigo secreto sorteado es: ${amigoGanador}`);
-        reiniciarLista();
-    } else {
-        amigosNoDisponibles();
-    }
+// Esta función limpia el campo de texto con el ID amigo
+function limpiarCaja(){
+    document.getElementById('amigo').value = '';
+    return;
+}
+
+function limpiarElemento(elementoId) {
+    document.getElementById(elementoId).innerHTML = '';
+    return;
 }
